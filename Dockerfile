@@ -7,4 +7,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "app.py"]  # Запускаем напрямую без Gunicorn для теста
+RUN mkdir -p /app/uploads && \
+    chmod 777 /app/uploads
+
+EXPOSE 5000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:app"]
