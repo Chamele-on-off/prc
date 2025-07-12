@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="card-title">Вход в систему</h3>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('login') }}" method="POST">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Имя пользователя</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Введите ваш логин" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Пароль</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Введите ваш пароль" required>
+                    </div>
+                    
+                    <div class="form-group d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                            <label class="form-check-label" for="remember">Запомнить меня</label>
+                        </div>
+                        <a href="#" class="text-primary">Забыли пароль?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-sign-in-alt"></i> Войти
+                    </button>
+                    
+                    <div class="text-center mt-4">
+                        <p class="text-muted">Нет аккаунта? <a href="#" class="text-primary">Зарегистрируйтесь</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - var(--header-height));
+        margin: 0;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .card-header {
+        background-color: var(--primary);
+        color: white;
+        border-bottom: none;
+    }
+    
+    .card-title {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--light);
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        background-color: rgba(255, 255, 255, 0.08);
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+    }
+    
+    .form-check-input {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .form-check-input:checked {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+    
+    .btn-block {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+    
+    .text-primary {
+        color: var(--primary) !important;
+        transition: color 0.3s ease;
+    }
+    
+    .text-primary:hover {
+        color: var(--primary-dark) !important;
+        text-decoration: none;
+    }
+    
+    .form-check-label {
+        color: var(--gray-light);
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Анимация появления формы
+        const card = document.querySelector('.card');
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 100);
+        
+        // Фокус на поле ввода логина
+        document.getElementById('username').focus();
+        
+        // Показать/скрыть пароль
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.createElement('span');
+        togglePassword.innerHTML = '<i class="fas fa-eye"></i>';
+        togglePassword.style.position = 'absolute';
+        togglePassword.style.right = '15px';
+        togglePassword.style.top = '50%';
+        togglePassword.style.transform = 'translateY(-50%)';
+        togglePassword.style.cursor = 'pointer';
+        togglePassword.style.color = 'var(--gray-light)';
+        togglePassword.style.zIndex = '5';
+        
+        const passwordWrapper = passwordInput.parentElement;
+        passwordWrapper.style.position = 'relative';
+        passwordWrapper.appendChild(togglePassword);
+        
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+    });
+</script>
+{% endblock %}
