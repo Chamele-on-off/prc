@@ -846,7 +846,7 @@ def trader_request(request_id):
         return jsonify(dict(zip(
             ['id', 'type', 'amount', 'currency', 'status', 'timestamp', 'expiry_time', 'details', 'merchant'],
             [*req[:8], json.loads(req[7]) if req[7] else {}, req[8]]
-        ))
+        )))
     
     elif request.method == 'PUT':
         data = request.json
@@ -1649,6 +1649,6 @@ if __name__ == '__main__':
     # Инициализация тестовых данных при первом запуске
     if not db.fetch_one("SELECT 1 FROM users LIMIT 1"):
         init_test_data()
-        print("Initial test data created") 
+        print("Initial test data created")
     
     app.run(debug=True, host='0.0.0.0', port=5000)
