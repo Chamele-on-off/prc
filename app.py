@@ -29,9 +29,9 @@ class SimpleDB:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE,
             password TEXT,
-            role TEXT,  # admin, trader, merchant
+            role TEXT,  -- admin, trader, merchant
             contact_info TEXT,
-            settings TEXT,  # JSON with role-specific settings
+            settings TEXT,  -- JSON with role-specific settings
             status TEXT DEFAULT 'active',
             last_login TEXT,
             ip_address TEXT,
@@ -43,7 +43,7 @@ class SimpleDB:
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS transactions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            type TEXT,  # deposit, withdraw, payment
+            type TEXT,  -- deposit, withdraw, payment
             amount REAL,
             currency TEXT,
             user_id INTEGER,
@@ -51,7 +51,7 @@ class SimpleDB:
             merchant_id INTEGER,
             status TEXT,
             timestamp TEXT DEFAULT CURRENT_TIMESTAMP,
-            details TEXT,  # JSON with transaction details
+            details TEXT,  -- JSON with transaction details
             proof TEXT,
             FOREIGN KEY(user_id) REFERENCES users(id),
             FOREIGN KEY(trader_id) REFERENCES users(id),
@@ -63,8 +63,8 @@ class SimpleDB:
         CREATE TABLE IF NOT EXISTS payment_details (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
-            type TEXT,  # card, wallet, etc.
-            details TEXT,  # JSON with payment details
+            type TEXT,  -- card, wallet, etc.
+            details TEXT,  -- JSON with payment details
             is_active INTEGER DEFAULT 1,
             min_amount REAL DEFAULT 0,
             max_amount REAL DEFAULT 1000000,
@@ -78,16 +78,16 @@ class SimpleDB:
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS requests (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            type TEXT,  # in, out
+            type TEXT,  -- in, out
             amount REAL,
             currency TEXT,
             user_id INTEGER,
             trader_id INTEGER,
             merchant_id INTEGER,
-            status TEXT DEFAULT 'pending',  # pending, processing, completed, disputed
+            status TEXT DEFAULT 'pending',  -- pending, processing, completed, disputed
             timestamp TEXT DEFAULT CURRENT_TIMESTAMP,
             expiry_time TEXT,
-            details TEXT,  # JSON with request details
+            details TEXT,  -- JSON with request details
             conversion_rate REAL,
             priority INTEGER DEFAULT 0,
             FOREIGN KEY(user_id) REFERENCES users(id),
@@ -102,7 +102,7 @@ class SimpleDB:
             request_id INTEGER,
             user_id INTEGER,
             admin_id INTEGER,
-            status TEXT DEFAULT 'open',  # open, in_progress, resolved
+            status TEXT DEFAULT 'open',  -- open, in_progress, resolved
             timestamp TEXT DEFAULT CURRENT_TIMESTAMP,
             details TEXT,
             resolution TEXT,
@@ -117,7 +117,7 @@ class SimpleDB:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             address TEXT,
             user_id INTEGER,
-            type TEXT,  # USDT, RUB, etc.
+            type TEXT,  -- USDT, RUB, etc.
             balance REAL DEFAULT 0,
             is_available INTEGER DEFAULT 1,
             last_used TEXT,
@@ -141,7 +141,7 @@ class SimpleDB:
         CREATE TABLE IF NOT EXISTS notifications (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
-            type TEXT,  # request, dispute, system
+            type TEXT,  -- request, dispute, system
             message TEXT,
             is_read INTEGER DEFAULT 0,
             timestamp TEXT DEFAULT CURRENT_TIMESTAMP,
