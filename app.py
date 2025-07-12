@@ -846,7 +846,7 @@ def trader_request(request_id):
         return jsonify(dict(zip(
             ['id', 'type', 'amount', 'currency', 'status', 'timestamp', 'expiry_time', 'details', 'merchant'],
             [*req[:8], json.loads(req[7]) if req[7] else {}, req[8]]
-        )))
+        ))
     
     elif request.method == 'PUT':
         data = request.json
