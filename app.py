@@ -345,15 +345,15 @@ def login():
         password = request.form.get('password')
         
         if not username or not password:
-            return render_template('login.html', error='Заполните все поля')
+            return render_template('login.html', error='Заполните все поля'), 400
         
         user = db.verify_user(username, password)
         
         if not user:
-            return render_template('login.html', error='Неверный логин или пароль')
+            return render_template('login.html', error='Неверный логин или пароль'), 401
         
         if user['status'] != 'active':
-            return render_template('login.html', error='Ваш аккаунт деактивирован')
+            return render_template('login.html', error='Ваш аккаунт деактивирован'), 403
         
         session['user_id'] = user['id']
         session['role'] = user['role']
