@@ -5,8 +5,6 @@ import time
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session, send_from_directory
 from werkzeug.utils import secure_filename
-from flask import Flask, session
-app.secret_key = 'ваш_очень_секретный_ключ_здесь'  # Должен быть длинным и сложным!
 
 app = Flask(__name__)
 app.secret_key = 'your_very_secret_key_here'
