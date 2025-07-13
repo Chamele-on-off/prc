@@ -322,13 +322,18 @@ def allowed_file(filename):
 # =============================================
 @app.route('/')
 def index():
+    print("Session data:", session)  # Отладочный вывод
     if 'user_id' not in session:
+        print("No user_id in session, redirecting to login")
         return redirect(url_for('login'))
     
     user = db.get_user_by_id(session['user_id'])
     if not user:
+        print("User not found in DB, clearing session")
+        session.clear()
         return redirect(url_for('login'))
     
+    print(f"User {user['username']} logged in, role: {user['role']}")
     if user['role'] == 'admin':
         return redirect(url_for('admin_panel'))
     elif user['role'] == 'trader':
@@ -337,7 +342,7 @@ def index():
         return redirect(url_for('merchant_panel'))
     
     return redirect(url_for('login'))
-
+    
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
