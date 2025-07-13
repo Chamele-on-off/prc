@@ -341,31 +341,20 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        
-        if not username or not password:
-            return render_template('login.html', error='Заполните все поля'), 400
+        username = request.form['username']  # Более строгий вариант
+        password = request.form['password']
         
         user = db.verify_user(username, password)
-        
-        if not user:
-            return render_template('login.html', error='Неверный логин или пароль'), 401
-        
-        if user['status'] != 'active':
-            return render_template('login.html', error='Ваш аккаунт деактивирован'), 403
-        
-        session['user_id'] = user['id']
-        session['role'] = user['role']
-        session['username'] = user['username']
-        
-        db.update_user_login(user['id'], request.remote_addr)
-        db.log_activity(user['id'], 'login', f"Успешный вход в систему с IP {request.remote_addr}")
-        
-        return redirect(url_for('index'))
+        if user:
+            session['user_id'] = user['id']
+            print(f"User {username} logged in successfully")  # Отладочный вывод
+            return redirect(url_for('index'))
+        else:
+            print(f"Failed login attempt for {username}")  # Отладочный вывод
+            return render_template('login.html', error='Неверные данные'), 401
     
     return render_template('login.html')
-
+    
 @app.route('/logout')
 def logout():
     if 'user_id' in session:
