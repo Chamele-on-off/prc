@@ -1170,7 +1170,7 @@ def trader_upload_proof():
         file.save(filepath)
         
         # Сохраняем ссылку на файл в базе данных
-        req = next((r for r in db.data['requests'] if r['id'] == int(request_id)), None
+        req = next((r for r in db.data['requests'] if r['id'] == int(request_id)), None)
         if req:
             if isinstance(req['details'], str):
                 req['details'] = json.loads(req['details'])
